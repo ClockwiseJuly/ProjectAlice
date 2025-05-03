@@ -32,6 +32,6 @@ public class PlayerStateMachine : StateMachine
 
     void Start()
     {
-        //SwitchOn(stateTable[typeof(PlayerState_Idle)]);
+        SwitchOn(stateTable[typeof(PlayerState_Idle)]);
     }
 }
