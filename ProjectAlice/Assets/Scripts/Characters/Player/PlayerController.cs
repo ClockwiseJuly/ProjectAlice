@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rigidBody;
 
-    public bool CanAirJump { get; set; } = true;
+    //public bool CanAirJump { get; set; } = true;
 
     public bool IsGrounded => groundDetector.IsGrounded;
 

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f66454209a98f14ab3760c0d8f1de9a, type: 3}
-  m_Name: PlayerState_JumpUp
+  m_Script: {fileID: 11500000, guid: 19cb3bb29c199ee41b7668c4a1e2417b, type: 3}
+  m_Name: PlayerState_AirJump
   m_EditorClassIdentifier: 
-  stateName: JumpUp
+  stateName: AirJump
   transitionDuration: 0.1
   jumpForce: 7
   moveSpeed: 5

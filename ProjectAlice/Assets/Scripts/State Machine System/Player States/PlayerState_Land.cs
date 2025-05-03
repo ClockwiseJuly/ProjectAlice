@@ -9,7 +9,7 @@ public class PlayerState_Land : PlayerState
         base.PhysicUpdate();
 
         player.SetVelocity(Vector3.zero);
-        player.CanAirJump = true;
+        //player.CanAirJump = true;
     }
     public override void LogicUpdate()
     {
