@@ -25,10 +25,10 @@ public class PlayerState_Run : PlayerState
             stateMachine.SwitchState(typeof(PlayerState_JumpUp));
         }
 
-        //if (!player.IsGrounded)
-        //{
-        //stateMachine.SwitchState(typeof(PlayerState_Fall));
-        //}
+        if (!player.IsGrounded)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Fall));
+        }
 
         currentSpeed = Mathf.MoveTowards(currentSpeed, runSpeed, accleration * Time.deltaTime);
     }

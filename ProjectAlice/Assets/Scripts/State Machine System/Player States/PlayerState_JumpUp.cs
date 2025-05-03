@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState_JumpUp : MonoBehaviour
+[CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/JumpUp", fileName = "PlayerState_JumpUp")]
+
+public class PlayerState_JumpUp : PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float jumpForce = 7f;
+
+    [SerializeField] float moveSpeed = 5f;
+
+    [SerializeField] ParticleSystem jumpVFX;
+    public override void Enter()
     {
-        
+        base.Enter();
+
+        player.SetVelocityY(jumpForce);
+        Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void LogicUpdate()
     {
-        
+        if (input.StopJump || player.IsFalling)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Fall));
+        }
+    }
+
+    public override void PhysicUpdate()
+    {
+        player.Move(moveSpeed);
     }
 }

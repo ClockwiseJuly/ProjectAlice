@@ -26,10 +26,10 @@ public class PlayerState_Idle : PlayerState
             stateMachine.SwitchState(typeof(PlayerState_JumpUp));
         }
 
-        //if (!player.IsGrounded)
-        //{
-        //stateMachine.SwitchState(typeof(PlayerState_Fall));
-        //}
+        if (!player.IsGrounded)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Fall));
+        }
 
         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
     }

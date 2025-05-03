@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerGroundDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float detectionRadius = 0.1f;
+    [SerializeField] LayerMask groundLayer;
 
-    // Update is called once per frame
-    void Update()
+    Collider[] colliders = new Collider[1];
+    public bool IsGrounded => Physics.OverlapSphereNonAlloc(transform.position, detectionRadius, colliders, groundLayer) != 0;
+
+    void OnDrawGizmosSelected()
     {
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

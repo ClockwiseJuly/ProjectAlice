@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    //PlayerGroundDetector groundDetector;
+    PlayerGroundDetector groundDetector;
 
     PlayerInput input;
 
@@ -13,15 +13,15 @@ public class PlayerController : MonoBehaviour
 
     public bool CanAirJump { get; set; } = true;
 
-    //public bool IsGrounded => groundDetector.IsGrounded;
+    public bool IsGrounded => groundDetector.IsGrounded;
 
-    //public bool IsFalling => rigidBody.velocity.y < 0f && !IsGrounded;
+    public bool IsFalling => rigidBody.velocity.y < 0f && !IsGrounded;
 
     public float MoveSpeed => Mathf.Abs(rigidBody.velocity.x);
 
     void Awake()
     {
-        //groundDetector = GetComponentInChildren<PlayerGroundDetector>();
+        groundDetector = GetComponentInChildren<PlayerGroundDetector>();
         input = GetComponent<PlayerInput>();
         rigidBody = GetComponent<Rigidbody>();
     }

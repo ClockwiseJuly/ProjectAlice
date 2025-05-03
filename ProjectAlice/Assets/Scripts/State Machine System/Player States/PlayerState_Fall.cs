@@ -1,18 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState_Fall : MonoBehaviour
+[CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Fall", fileName = "PlayerState_Fall")]
+public class PlayerState_Fall : PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] AnimationCurve speedCurve;
+
+    [SerializeField] float moveSpeed = 5f;
+    public override void LogicUpdate()
     {
-        
+        if (player.IsGrounded)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Land));
+        }
+
+        if (input.Jump)
+        {
+            if (player.CanAirJump)
+            {
+                //stateMachine.SwitchState(newStateType: typeof(PlayerState_AirJump));
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void PhysicUpdate()
     {
-        
+        player.Move(moveSpeed);
+        player.SetVelocityY(speedCurve.Evaluate(StateDuration));
     }
 }

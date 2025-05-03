@@ -1,18 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState_Land : MonoBehaviour
+[CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Land", fileName = "PlayerState_Land")]
+public class PlayerState_Land : PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float stiffTime = 0.2f;
+    public override void PhysicUpdate()
     {
-        
-    }
+        base.PhysicUpdate();
 
-    // Update is called once per frame
-    void Update()
+        player.SetVelocity(Vector3.zero);
+        player.CanAirJump = true;
+    }
+    public override void LogicUpdate()
     {
-        
+        if (input.Jump)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_JumpUp));
+        }
+
+        if (StateDuration < stiffTime)
+        {
+            return;
+        }
+
+        if (input.Move)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Run));
+        }
+
+        if (IsAnimationFinished)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Idle));
+        }
+
     }
 }
