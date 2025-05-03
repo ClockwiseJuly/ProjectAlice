@@ -14,9 +14,9 @@ public class PlayerState : ScriptableObject, IState
 
     protected Animator animator;
 
-    //protected PlayerController player;
+    protected PlayerController player;
 
-    //protected PlayerInput input;
+    protected PlayerInput input;
 
     protected PlayerStateMachine stateMachine;
 
@@ -30,11 +30,11 @@ public class PlayerState : ScriptableObject, IState
         stateHash = Animator.StringToHash(stateName);
     }
 
-    public void Initialize(Animator animator, PlayerStateMachine stateMachine)//PlayerController player, PlayerInput input)
+    public void Initialize(Animator animator, PlayerController player, PlayerInput input, PlayerStateMachine stateMachine)
     {
         this.animator = animator;
-        //this.input = input;
-        //this.player = player;
+        this.input = input;
+        this.player = player;
         this.stateMachine = stateMachine;
     }
     public virtual void Enter()

@@ -9,23 +9,23 @@ public class PlayerStateMachine : StateMachine
 
     Animator animator;
 
-    //PlayerController player;
+    PlayerController player;
 
-    //PlayerInput input;
+    PlayerInput input;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
 
-        //input = GetComponent<PlayerInput>();
+        input = GetComponent<PlayerInput>();
 
-        //player = GetComponent<PlayerController>();
+        player = GetComponent<PlayerController>();
 
         stateTable = new Dictionary<System.Type, IState>(states.Length);
 
         foreach (PlayerState state in states)
         {
-            state.Initialize(animator, this); //player, input, this);
+            state.Initialize(animator, player, input, this);
             stateTable.Add(state.GetType(), state);
         }
     }
