@@ -12,7 +12,7 @@ public class PlayerState_JumpUp : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        input.HasJumpInputBuffer = false;
         player.SetVelocityY(jumpForce);
         Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);
     }

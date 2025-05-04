@@ -19,6 +19,8 @@ public class PlayerState_Fall : PlayerState
             {
                 stateMachine.SwitchState(newStateType: typeof(PlayerState_AirJump));
             }
+
+            input.SetJumpInputBufferTimer();
         }
     }
 
