@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class VictoryScreen : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel levelclearedEventChannel;
+    [SerializeField] VoidEventChannel levelclearedEventChannel;// ¼àÌý´ËÆµµÀ
 
-    void Enable()
+    void OnEnable()
     {
         levelclearedEventChannel.AddListener(action: ShowUI);
     }
 
-    void Disable()
+    void OnDisable()
     {
         levelclearedEventChannel.RemoveListener(action: ShowUI);
     }

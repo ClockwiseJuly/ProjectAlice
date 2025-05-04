@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel levelclearedEventChannel;
+    [SerializeField] VoidEventChannel levelclearedEventChannel;// 监听关卡胜利事件频道
 
     [Header("Camera Settings")]// 引用虚拟相机
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource VoicePlayer { get; private set; } // 语音播放器
 
 
-    public bool Victory { get; private set; }
+    public bool Victory { get; private set; }// 胜利状态
     public bool CanAirJump { get; set; } = true;// 空中跳跃二段跳
 
     public bool IsGrounded => groundDetector.IsGrounded;
@@ -185,12 +185,12 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        levelclearedEventChannel.AddListener(action: OnLevelCleared); // 订阅事件
+        levelclearedEventChannel.AddListener(action: OnLevelCleared); // 添加监听
     }
 
     void OnDisable()
     {
-        levelclearedEventChannel.RemoveListener(action: OnLevelCleared); // 取消订阅事件
+        levelclearedEventChannel.RemoveListener(action: OnLevelCleared); // 取消监听
     }
 
     void OnLevelCleared()

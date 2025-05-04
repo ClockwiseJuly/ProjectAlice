@@ -13,12 +13,12 @@ public class VoidEventChannel : ScriptableObject
         Delegate?.Invoke(); // 如果有订阅者，则调用事件
     }
 
-    public void AddListener(System.Action action) // 添加订阅者
+    public void AddListener(System.Action action) // 添加监听
     {
         Delegate += action; // 将订阅者添加到事件委托中
     }
 
-    public void RemoveListener(System.Action action) // 移除订阅者
+    public void RemoveListener(System.Action action) // 移除监听
     {
         Delegate -= action; // 将订阅者从事件委托中移除
     }

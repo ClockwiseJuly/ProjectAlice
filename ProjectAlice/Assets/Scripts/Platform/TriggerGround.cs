@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TriggerGround : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel triggerEventChannel;
-    //[SerializeField] Trigger trigger;
+    [SerializeField] VoidEventChannel triggerEventChannel;// 序列化当前类的事件频道变量
+    //[SerializeField] Trigger trigger;// 获取trigger的引用实例
 
     new Collider collider;
     MeshRenderer meshRenderer;
@@ -11,13 +11,13 @@ public class TriggerGround : MonoBehaviour
     void OnEnable()
     {
         //trigger.Delegate += Open;
-        triggerEventChannel.AddListener(action: Open); // 订阅事件
+        triggerEventChannel.AddListener(action: Open); // 添加监听
     }
 
     void OnDisable()
     {
         //trigger.Delegate -= Open;
-        triggerEventChannel.RemoveListener(action: Open); // 取消订阅事件
+        triggerEventChannel.RemoveListener(action: Open); // 取消监听
     }
 
     void Awake()
