@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/AirJump", fileName = "PlayerState_AirJump")]
 
@@ -13,7 +13,7 @@ public class PlayerState_AirJump : PlayerState
     {
         base.Enter();
 
-        //player.CanAirJump = false;
+        player.CanAirJump = false;
         player.SetVelocityY(jumpForce);
         Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);
     }
