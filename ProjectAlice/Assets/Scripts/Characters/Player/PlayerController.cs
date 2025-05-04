@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rigidBody;
 
+    public AudioSource VoicePlayer { get; private set; } // 语音播放器
+
     public bool CanAirJump { get; set; } = true;// 空中跳跃二段跳
 
     public bool IsGrounded => groundDetector.IsGrounded;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         groundDetector = GetComponentInChildren<PlayerGroundDetector>();
         input = GetComponent<PlayerInput>();
         rigidBody = GetComponent<Rigidbody>();
+        VoicePlayer = GetComponentInChildren<AudioSource>();
     }
 
     void Start()
