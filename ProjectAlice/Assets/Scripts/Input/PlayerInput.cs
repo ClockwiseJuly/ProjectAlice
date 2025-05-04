@@ -12,6 +12,9 @@ public class PlayerInput : MonoBehaviour
     public bool StopJump => playerInputActions.Gameplay.Jump.WasReleasedThisFrame();
     public bool Move => AxisX != 0f;
     public float AxisX => axes.x;
+    
+    //交互键
+    public bool Interact => playerInputActions.Gameplay.Interaction.WasPressedThisFrame();
 
     void Awake()
     {
