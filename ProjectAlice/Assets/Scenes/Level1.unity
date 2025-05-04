@@ -22556,6 +22556,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9b833ef3d023a4d9951de0872f674d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFollowCamera: {fileID: 51516519}
+  cameraTiltDuration: 0.5
 --- !u!1 &7199088261575034689
 GameObject:
   m_ObjectHideFlags: 0

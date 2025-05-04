@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFalling => rigidBody.velocity.y < 0f && !IsGrounded;
 
-    public float MoveSpeed => Mathf.Abs(rigidBody.velocity.x);
+    //public float MoveSpeed => Mathf.Abs(rigidBody.velocity.x);
+    public float MoveSpeed => Mathf.Sqrt(rigidBody.velocity.x * rigidBody.velocity.x + rigidBody.velocity.z * rigidBody.velocity.z); // 修改移动速度计算，考虑X和Z轴
 
     void Awake()
     {
@@ -48,12 +49,20 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float speed)
     {
-        if (input.Move)
+        UpdatePlayerRotation();// 检测按键组合并调整角色朝向
+        
+        //if (input.Move)
+        //if (input.AxisX != 0f)// 只在X轴有输入时才改变朝向
+
+        // 保持localScale控制左右朝向，但只在没有前进输入时才应用
+        if (input.AxisX != 0f && input.AxisY <= 0)
         {
             transform.localScale = new Vector3(input.AxisX, 1f, 1f);
+            transform.rotation = Quaternion.Euler(0, 0, 0); // 重置旋转
         }
 
-        SetVelocityX(speed * input.AxisX);
+        //SetVelocityX(speed * input.AxisX);
+        SetVelocityXZ(speed * input.AxisX, speed * input.AxisY);// 设置X和Z轴的速度
     }
     public void SetVelocity(Vector3 velocity)
     {
@@ -69,7 +78,49 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, velocityY);
     }
+    // 添加设置Z轴速度的方法    
+    public void SetVelocityZ(float velocityZ)
+    {
+        rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y, velocityZ);
+    }
 
+    // 添加同时设置X和Z轴速度的方法
+    public void SetVelocityXZ(float velocityX, float velocityZ)
+    {
+        rigidBody.velocity = new Vector3(velocityX, rigidBody.velocity.y, velocityZ);
+    }
+
+    // 根据按键组合更新角色旋转
+    private void UpdatePlayerRotation()
+    {
+        // 获取当前输入值
+        float xInput = input.AxisX;
+        float yInput = input.AxisY;
+        
+        // 只在有前进输入时才应用旋转
+        if (yInput > 0)
+        {
+            // 检测W+A组合（左上方移动）
+            if (xInput < 0)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f); // 重置缩放
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            // 检测W+D组合（右上方移动）
+            else if (xInput > 0)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f); 
+                transform.rotation = Quaternion.Euler(0, 270, 0);
+            }
+            // 仅向前移动(W)
+            else
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f); 
+                transform.rotation = Quaternion.Euler(0, 225, 0);
+            }
+        }
+    }
+        
     void Update()
     {
         if (input.Interact && !isTransitioning) // 确保在过渡期间不会触发新的切换
