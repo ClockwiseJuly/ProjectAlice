@@ -1,23 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerGround : MonoBehaviour
 {
-    [SerializeField] Trigger trigger;
+    [SerializeField] VoidEventChannel triggerEventChannel;
+    //[SerializeField] Trigger trigger;
 
     new Collider collider;
     MeshRenderer meshRenderer;
 
     void OnEnable()
     {
-        trigger.Delegate += Open;
+        //trigger.Delegate += Open;
+        triggerEventChannel.AddListener(action: Open); // 订阅事件
     }
 
     void OnDisable()
     {
-        trigger.Delegate -= Open;
+        //trigger.Delegate -= Open;
+        triggerEventChannel.RemoveListener(action: Open); // 取消订阅事件
     }
 
     void Awake()

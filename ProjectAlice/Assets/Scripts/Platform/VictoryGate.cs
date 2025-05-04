@@ -1,20 +1,16 @@
 using UnityEngine;
 
-public class Trigger : MonoBehaviour
+public class VictoryGate : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel triggerEventChannel;
+    [SerializeField] VoidEventChannel levelclearedEventChannel;
     [SerializeField] AudioClip pickSFX;
     [SerializeField] ParticleSystem pickVFX;
 
-    //public event System.Action Delegate;
-
     void OnTriggerEnter(Collider other)// 触发器而非交互
     {
-        //Delegate?.Invoke();// 触发事件
-        triggerEventChannel.Broadcast(); // 广播事件
+        levelclearedEventChannel.Broadcast(); // 广播事件
         SoundEffectPlayer.audioSource.PlayOneShot(pickSFX);
         Instantiate(original: pickVFX, position: transform.position, rotation: Quaternion.identity);
-        Destroy(obj: gameObject);
-
+        //Destroy(obj: gameObject);
     }
 }

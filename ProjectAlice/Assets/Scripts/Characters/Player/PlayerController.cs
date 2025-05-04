@@ -6,6 +6,7 @@ using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] VoidEventChannel levelclearedEventChannel;
 
     [Header("Camera Settings")]// 引用虚拟相机
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource VoicePlayer { get; private set; } // 语音播放器
 
+
+    public bool Victory { get; private set; }
     public bool CanAirJump { get; set; } = true;// 空中跳跃二段跳
 
     public bool IsGrounded => groundDetector.IsGrounded;
@@ -36,7 +39,7 @@ public class PlayerController : MonoBehaviour
         groundDetector = GetComponentInChildren<PlayerGroundDetector>();
         input = GetComponent<PlayerInput>();
         rigidBody = GetComponent<Rigidbody>();
-        VoicePlayer = GetComponentInChildren<AudioSource>();
+        VoicePlayer = GetComponentInChildren<AudioSource>();// 获取语音组件
     }
 
     void Start()
@@ -178,5 +181,20 @@ public class PlayerController : MonoBehaviour
     public void SetUseGravity(bool value)
     {
         rigidBody.useGravity = value; // 设置刚体的重力使用状态    
+    }
+
+    void OnEnable()
+    {
+        levelclearedEventChannel.AddListener(action: OnLevelCleared); // 订阅事件
+    }
+
+    void OnDisable()
+    {
+        levelclearedEventChannel.RemoveListener(action: OnLevelCleared); // 取消订阅事件
+    }
+
+    void OnLevelCleared()
+    {
+        Victory = true; // 设置胜利状态为true
     }
 }

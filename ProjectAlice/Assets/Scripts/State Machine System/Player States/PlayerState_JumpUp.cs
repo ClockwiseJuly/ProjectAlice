@@ -8,9 +8,9 @@ public class PlayerState_JumpUp : PlayerState
 
     [SerializeField] float moveSpeed = 5f;
 
-    [SerializeField] ParticleSystem jumpVFX;
+    [SerializeField] ParticleSystem jumpVFX;// ÌøÔ¾Á£×ÓÌØĞ§
 
-    [SerializeField] AudioClip jumpSFX;
+    [SerializeField] AudioClip jumpSFX;// ÌøÔ¾ÓïÒô
     public override void Enter()
     {
         base.Enter();

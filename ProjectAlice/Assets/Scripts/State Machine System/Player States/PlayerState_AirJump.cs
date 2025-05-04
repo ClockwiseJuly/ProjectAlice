@@ -8,9 +8,9 @@ public class PlayerState_AirJump : PlayerState
 
     [SerializeField] float moveSpeed = 5f;
 
-    [SerializeField] ParticleSystem jumpVFX;
+    [SerializeField] ParticleSystem jumpVFX; // 二段跳跃粒子特效
 
-    [SerializeField] AudioClip jumpSFX;
+    [SerializeField] AudioClip jumpSFX;// 二段跳跃语音
     public override void Enter()
     {
         base.Enter();
