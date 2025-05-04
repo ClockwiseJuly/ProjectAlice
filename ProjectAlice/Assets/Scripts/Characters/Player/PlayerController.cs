@@ -171,4 +171,9 @@ public class PlayerController : MonoBehaviour
             isTransitioning = false;  // 重置过渡状态标志
         }
     }
+
+    public void SetUseGravity(bool value)
+    {
+        rigidBody.useGravity = value; // 设置刚体的重力使用状态    
+    }
 }
