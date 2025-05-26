@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     private bool isCameraTilted = false;// 记录相机是否处于倾斜状态
     private bool isTransitioning = false; // 添加过渡状态标志
     private const float TILT_ANGLE = 45f;// 相机倾斜角度
-
+    private bool is2DMode = false; // 跟踪当前视角模式
+    private int currentViewDirection = 0; // 0=正面，1=右侧，2=背面，3=左侧
     PlayerGroundDetector groundDetector;
 
     PlayerInput input;
@@ -197,4 +198,19 @@ public class PlayerController : MonoBehaviour
     {
         Victory = true; // 设置胜利状态为true
     }
+
+    //处理视角模式变化
+public void OnViewModeChanged(bool is2DMode, int viewDirection)
+{
+    // 存储当前视角模式
+    this.is2DMode = is2DMode;
+    this.currentViewDirection = viewDirection;
+    // 可以在这里添加更多逻辑，例如：
+    // 1. 调整移动速度
+    // 2. 修改碰撞体大小或形状
+    // 3. 切换动画状态
+    // 4. 调整重力设置
+    // 重置速度，避免视角切换时的异常移动
+    rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
+}
 }
