@@ -8,21 +8,21 @@ public class PlayerState_JumpUp : PlayerState
 
     [SerializeField] float moveSpeed = 5f;
 
-    [SerializeField] ParticleSystem jumpVFX;// Ã¯‘æ¡£◊”Ãÿ–ß
+    [SerializeField] ParticleSystem jumpVFX;// √å√∏√î¬æ√Å¬£√ó√ì√å√ò√ê¬ß
 
-    [SerializeField] AudioClip jumpSFX;// Ã¯‘æ”Ô“Ù
+    [SerializeField] AudioClip jumpSFX;// √å√∏√î¬æ√ì√Ø√í√¥
     public override void Enter()
     {
         base.Enter();
-        input.HasJumpInputBuffer = false;
-        player.SetVelocityY(jumpForce);
+        input.HasJumpInputBuffer = false;//???????????
+        player.SetVelocityY(jumpForce);//????
         player.VoicePlayer.PlayOneShot(clip: jumpSFX);
         Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);
     }
 
     public override void LogicUpdate()
     {
-        if (input.StopJump || player.IsFalling)
+        if (input.StopJump || player.IsFalling) //????????????
         {
             stateMachine.SwitchState(typeof(PlayerState_Fall));
         }
@@ -30,6 +30,6 @@ public class PlayerState_JumpUp : PlayerState
 
     public override void PhysicUpdate()
     {
-        player.Move(moveSpeed);
+        player.Move(moveSpeed);//????
     }
 }

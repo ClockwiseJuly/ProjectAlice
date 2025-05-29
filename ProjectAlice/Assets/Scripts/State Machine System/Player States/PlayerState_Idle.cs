@@ -1,13 +1,13 @@
 using UnityEngine;
 
-
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Idle", fileName = "PlayerState_Idle")]
+
 public class PlayerState_Idle : PlayerState
 {
     [SerializeField] float deceleration = 5f;
     public override void Enter()
     {
-        base.Enter();
+        base.Enter();//依靠PlayState基类Enter函数播放动画
 
         currentSpeed = player.MoveSpeed;
 

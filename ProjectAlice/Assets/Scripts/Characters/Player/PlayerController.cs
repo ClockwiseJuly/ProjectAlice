@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Cinemachine;
 
 public class PlayerController : MonoBehaviour
@@ -10,12 +7,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Camera Settings")]// 引用虚拟相机
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
-    //[SerializeField] private float cameraTiltDuration = 0.5f; // 添加可序列化的过渡时间
-    //private bool isCameraTilted = false;// 记录相机是否处于倾斜状态
-    //private bool isTransitioning = false; // 添加过渡状态标志
-    //private const float TILT_ANGLE = 45f;// 相机倾斜角度
-    //private bool is2DMode = false; // 跟踪当前视角模式
-    //private int currentViewDirection = 0; // 0=正面，1=右侧，2=背面，3=左侧
+
     PlayerGroundDetector groundDetector;
 
     PlayerInput input;
@@ -24,29 +16,40 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource VoicePlayer { get; private set; } // 语音播放器
 
-
     public bool Victory { get; private set; }// 胜利状态
     public bool CanAirJump { get; set; } = true;// 空中跳跃二段跳
+
+    //public bool CanAirJump { get; set; };默认false，可作为获取道具解锁二段跳能力的基础
+    //相关代码：Land状态，镜子碎片等拾取物体
 
     public bool IsGrounded => groundDetector.IsGrounded;
 
     public bool IsFalling => rigidBody.velocity.y < 0f && !IsGrounded;
 
     //public float MoveSpeed => Mathf.Abs(rigidBody.velocity.x);
-    public float MoveSpeed => Mathf.Sqrt(rigidBody.velocity.x * rigidBody.velocity.x + rigidBody.velocity.z * rigidBody.velocity.z); // 修改移动速度计算，考虑X和Z轴
 
+    // 修改移动速度计算，考虑X和Z轴
+    public float MoveSpeed => Mathf.Sqrt(rigidBody.velocity.x * rigidBody.velocity.x +
+    rigidBody.velocity.z * rigidBody.velocity.z);
     private BoxCollider boxCollider;
+
+    //[SerializeField] private float cameraTiltDuration = 0.5f; // 添加可序列化的过渡时间
+    //private bool isCameraTilted = false;// 记录相机是否处于倾斜状态
+    //private bool isTransitioning = false; // 添加过渡状态标志
+    //private const float TILT_ANGLE = 45f;// 相机倾斜角度
+    //private bool is2DMode = false; // 跟踪当前视角模式
+    //private int currentViewDirection = 0; // 0=正面，1=右侧，2=背面，3=左侧
     void Awake()
     {
         groundDetector = GetComponentInChildren<PlayerGroundDetector>();
         input = GetComponent<PlayerInput>();
         rigidBody = GetComponent<Rigidbody>();
-        VoicePlayer = GetComponentInChildren<AudioSource>();// 获取语音组件
+        VoicePlayer = GetComponentInChildren<AudioSource>();
     }
 
     void Start()
     {
-        input.EnableGameplayInputs();
+        input.EnableGameplayInputs();//启用动作表
 
         // 获取场景中的虚拟相机引用
         if (playerFollowCamera == null)
@@ -55,6 +58,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //根据玩家x轴方向输入来移动并改变朝向
     public void Move(float speed)
     {
         UpdatePlayerRotation();// 检测按键组合并调整角色朝向
@@ -65,13 +69,13 @@ public class PlayerController : MonoBehaviour
         // 保持localScale控制左右朝向，但只在没有前进输入时才应用
         if (input.AxisX != 0f && input.AxisY <= 0)
         {
-            transform.localScale = new Vector3(input.AxisX, 1f, 1f);
-            transform.rotation = Quaternion.Euler(0, 0, 0); // 重置旋转
+            transform.localScale = new Vector3(input.AxisX, 1f, 1f);//镜像旋转
+            transform.rotation = Quaternion.Euler(0, 0, 0); //重置旋转
         }
 
         // 添加平滑处理
         Vector3 targetVelocity = new Vector3(speed * input.AxisX, rigidBody.velocity.y, speed * input.AxisY);
-        
+
         // 如果没有输入，应用更强的减速
         if (Mathf.Approximately(input.AxisX, 0f) && Mathf.Approximately(input.AxisY, 0f))
         {
@@ -88,20 +92,24 @@ public class PlayerController : MonoBehaviour
             SetVelocityXZ(targetVelocity.x, targetVelocity.z);
         }
     }
+
     public void SetVelocity(Vector3 velocity)
     {
         rigidBody.velocity = velocity;
     }
 
+    // 添加设置X轴速度的方法，处理玩家左右移动
     public void SetVelocityX(float velocityX)
     {
         rigidBody.velocity = new Vector3(velocityX, rigidBody.velocity.y);
     }
 
+    // 添加设置Y轴速度的方法，处理玩家上下移动
     public void SetVelocityY(float velocityY)
     {
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, velocityY);
     }
+
     // 添加设置Z轴速度的方法    
     public void SetVelocityZ(float velocityZ)
     {
@@ -144,6 +152,39 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    // 设置刚体的重力使用状态
+    public void SetUseGravity(bool value)
+    {
+        rigidBody.useGravity = value; 
+    }
+
+    void OnEnable()
+    {
+        levelclearedEventChannel.AddListener(action: OnLevelCleared); // 添加监听
+    }
+
+    void OnDisable()
+    {
+        levelclearedEventChannel.RemoveListener(action: OnLevelCleared); // 取消监听
+    }
+
+    void OnLevelCleared()
+    {
+        Victory = true; // 设置胜利状态为true
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        boxCollider = collision.gameObject.GetComponent<BoxCollider>();
+        Debug.Log(boxCollider);
+    }
+
+    public GameObject GetboxCollider()
+    {
+        return boxCollider.gameObject;
+    }
+
 
     // void Update()
     // {
@@ -196,50 +237,20 @@ public class PlayerController : MonoBehaviour
     //     }
     // }
 
-    public void SetUseGravity(bool value)
-    {
-        rigidBody.useGravity = value; // 设置刚体的重力使用状态    
-    }
-
-    void OnEnable()
-    {
-        levelclearedEventChannel.AddListener(action: OnLevelCleared); // 添加监听
-    }
-
-    void OnDisable()
-    {
-        levelclearedEventChannel.RemoveListener(action: OnLevelCleared); // 取消监听
-    }
-
-    void OnLevelCleared()
-    {
-        Victory = true; // 设置胜利状态为true
-    }
 
     //处理视角模式变化
-// public void OnViewModeChanged(bool is2DMode, int viewDirection)
-// {
-//     // 存储当前视角模式
-//     this.is2DMode = is2DMode;
-//     this.currentViewDirection = viewDirection;
-//     // 可以在这里添加更多逻辑，例如：
-//     // 1. 调整移动速度
-//     // 2. 修改碰撞体大小或形状
-//     // 3. 切换动画状态
-//     // 4. 调整重力设置
-//     // 重置速度，避免视角切换时的异常移动
-//     rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
-// }
+    // public void OnViewModeChanged(bool is2DMode, int viewDirection)
+    // {
+    //     // 存储当前视角模式
+    //     this.is2DMode = is2DMode;
+    //     this.currentViewDirection = viewDirection;
+    //     // 可以在这里添加更多逻辑，例如：
+    //     // 1. 调整移动速度
+    //     // 2. 修改碰撞体大小或形状
+    //     // 3. 切换动画状态
+    //     // 4. 调整重力设置
+    //     // 重置速度，避免视角切换时的异常移动
+    //     rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
+    // }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        boxCollider = collision.gameObject.GetComponent<BoxCollider>();
-        Debug.Log(boxCollider);
-    }
-
-    public GameObject GetboxCollider()
-    {
-        return boxCollider.gameObject;
-    }
-
- }
+}

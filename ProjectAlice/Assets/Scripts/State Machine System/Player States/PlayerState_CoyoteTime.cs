@@ -4,10 +4,11 @@ using UnityEngine;
 public class PlayerState_CoyoteTime : PlayerState
 {
     [SerializeField] float runSpeed = 5f;
-    [SerializeField] float CoyoteTime = 0.1f;
+    [SerializeField] float CoyoteTime = 0.1f;//土狼时间持续时间
     public override void Enter()
     {
         base.Enter();
+        
         player.SetUseGravity(value: false);
     }
 

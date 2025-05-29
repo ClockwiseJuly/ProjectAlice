@@ -14,8 +14,7 @@ public class PlayerState_AirJump : PlayerState
     public override void Enter()
     {
         base.Enter();
-
-        player.CanAirJump = false;
+        player.CanAirJump = false;// ????????
         player.SetVelocityY(jumpForce);
         player.VoicePlayer.PlayOneShot(clip: jumpSFX);
         Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);
