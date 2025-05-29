@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Fall", fileName = "PlayerState_Fall")]
 public class PlayerState_Fall : PlayerState
 {
-    [SerializeField] AnimationCurve speedCurve;//动画速度曲线
+    [SerializeField] AnimationCurve speedCurve;//鍔ㄧ敾閫熷害鏇茬嚎
 
     [SerializeField] float moveSpeed = 5f;
     public override void LogicUpdate()
@@ -20,14 +20,14 @@ public class PlayerState_Fall : PlayerState
                 stateMachine.SwitchState(newStateType: typeof(PlayerState_AirJump));
             }
 
-            //跳跃未触发二段跳，一段时间后从true变为false
+            //璺宠穬鏈Е鍙戜簩娈佃烦锛屼竴娈垫椂闂村悗浠巘rue鍙樹负false
             input.SetJumpInputBufferTimer();
         }
     }
 
     public override void PhysicUpdate()
     {
-        player.Move(moveSpeed);//空中移动
-        player.SetVelocityY(speedCurve.Evaluate(StateDuration));//控制掉落速度
+        player.Move(moveSpeed);//绌轰腑绉诲姩
+        player.SetVelocityY(speedCurve.Evaluate(StateDuration));//鎺у埗鎺夎惤閫熷害
     }
 }

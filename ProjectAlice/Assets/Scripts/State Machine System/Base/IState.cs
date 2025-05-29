@@ -1,9 +1,9 @@
-//I¿ªÍ·×´Ì¬½Ó¿Ú
+//Iå¼€å¤´çŠ¶æ€æ¥å£
 public interface IState
 {
-    void Enter();//×´Ì¬½øÈë
-    void Exit();//×´Ì¬ÍÆ³ö
-    void LogicUpdate();//×´Ì¬Âß¼­¸üĞÂ
-    void PhysicUpdate();//×´Ì¬ÎïÀí¸üĞÂ£¨»ùÓÚ¸ÕÌåÄ£ÄâÔË¶¯£©
+    void Enter();//çŠ¶æ€è¿›å…¥
+    void Exit();//çŠ¶æ€æ¨å‡º
+    void LogicUpdate();//çŠ¶æ€é€»è¾‘æ›´æ–°
+    void PhysicUpdate();//çŠ¶æ€ç‰©ç†æ›´æ–°ï¼ˆåŸºäºåˆšä½“æ¨¡æ‹Ÿè¿åŠ¨ï¼‰
 
 }

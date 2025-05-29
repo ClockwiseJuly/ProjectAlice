@@ -6,20 +6,20 @@ using UnityEngine;
 
 public class VoidEventChannel : ScriptableObject
 {
-    event System.Action Delegate; // ÊÂ¼şÎ¯ÍĞ
+    event System.Action Delegate; // äº‹ä»¶å§”æ‰˜
 
-    public void Broadcast() // ¹ã²¥ÊÂ¼ş
+    public void Broadcast() // å¹¿æ’­äº‹ä»¶
     {
-        Delegate?.Invoke(); // Èç¹ûÓĞ¶©ÔÄÕß£¬Ôòµ÷ÓÃÊÂ¼ş
+        Delegate?.Invoke(); // å¦‚æœæœ‰è®¢é˜…è€…ï¼Œåˆ™è°ƒç”¨äº‹ä»¶
     }
 
-    public void AddListener(System.Action action) // Ìí¼Ó¼àÌı
+    public void AddListener(System.Action action) // æ·»åŠ ç›‘å¬
     {
-        Delegate += action; // ½«¶©ÔÄÕßÌí¼Óµ½ÊÂ¼şÎ¯ÍĞÖĞ
+        Delegate += action; // å°†è®¢é˜…è€…æ·»åŠ åˆ°äº‹ä»¶å§”æ‰˜ä¸­
     }
 
-    public void RemoveListener(System.Action action) // ÒÆ³ı¼àÌı
+    public void RemoveListener(System.Action action) // ç§»é™¤ç›‘å¬
     {
-        Delegate -= action; // ½«¶©ÔÄÕß´ÓÊÂ¼şÎ¯ÍĞÖĞÒÆ³ı
+        Delegate -= action; // å°†è®¢é˜…è€…ä»äº‹ä»¶å§”æ‰˜ä¸­ç§»é™¤
     }
 }

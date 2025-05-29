@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Trigger : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel triggerEventChannel;// ĞòÁĞ»¯µ±Ç°ÀàµÄÊÂ¼şÆµµÀ±äÁ¿
+    [SerializeField] VoidEventChannel triggerEventChannel;// åºåˆ—åŒ–å½“å‰ç±»çš„äº‹ä»¶é¢‘é“å˜é‡
     [SerializeField] AudioClip pickSFX;
     [SerializeField] ParticleSystem pickVFX;
 
-    //public event System.Action Delegate;// ÊÂ¼şÎ¯ÍĞ
+    //public event System.Action Delegate;// äº‹ä»¶å§”æ‰˜
 
-    void OnTriggerEnter(Collider other)// ´¥·¢Æ÷¶ø·Ç½»»¥
+    void OnTriggerEnter(Collider other)// è§¦å‘å™¨è€Œéäº¤äº’
     {
-        //Delegate?.Invoke();// ´¥·¢ÊÂ¼şµ÷ÓÃÎ¯ÍĞ
-        triggerEventChannel.Broadcast(); // ¹ã²¥ÊÂ¼ş
+        //Delegate?.Invoke();// è§¦å‘äº‹ä»¶è°ƒç”¨å§”æ‰˜
+        triggerEventChannel.Broadcast(); // å¹¿æ’­äº‹ä»¶
         SoundEffectPlayer.audioSource.PlayOneShot(pickSFX);
         Instantiate(original: pickVFX, position: transform.position, rotation: Quaternion.identity);
         Destroy(obj: gameObject);

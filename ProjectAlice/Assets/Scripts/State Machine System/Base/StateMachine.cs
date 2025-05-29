@@ -2,43 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//1.³ÖÓĞËùÓĞµÄ×´Ì¬Àà£¬²¢¶ÔËûÃÇ½øĞĞ¹ÜÀíºÍÇĞ»»
-//2.¸ºÔğ½øĞĞµ±Ç°×´Ì¬µÄ¸üĞÂ
+//1.æŒæœ‰æ‰€æœ‰çš„çŠ¶æ€ç±»ï¼Œå¹¶å¯¹ä»–ä»¬è¿›è¡Œç®¡ç†å’Œåˆ‡æ¢
+//2.è´Ÿè´£è¿›è¡Œå½“å‰çŠ¶æ€çš„æ›´æ–°
 public class StateMachine : MonoBehaviour
 {
     IState currentState;
 
-    //½«×´Ì¬µÄType×÷Îª¼ü£¬×´Ì¬ÊµÀı×÷ÎªÖµ´æÈë×Öµä
-    //¼üÎª×´Ì¬ÀàĞÍSystem.Type£¬ÖµÎª×´Ì¬ÀàÊµÀıIStateµÄ×Öµä
+    //å°†çŠ¶æ€çš„Typeä½œä¸ºé”®ï¼ŒçŠ¶æ€å®ä¾‹ä½œä¸ºå€¼å­˜å…¥å­—å…¸
+    //é”®ä¸ºçŠ¶æ€ç±»å‹System.Typeï¼Œå€¼ä¸ºçŠ¶æ€ç±»å®ä¾‹IStateçš„å­—å…¸
     protected Dictionary<System.Type, IState> stateTable;
 
-    //´¦ÀíÂß¼­¸üĞÂ
+    //å¤„ç†é€»è¾‘æ›´æ–°
     void Update()
     {
         currentState.LogicUpdate();
     }
 
-    //´¦ÀíÎïÀí¸üĞÂ
+    //å¤„ç†ç‰©ç†æ›´æ–°
     void FixedUpdate()
     {
         currentState.PhysicUpdate();
     }
 
-    //Æô¶¯×´Ì¬»ú
+    //å¯åŠ¨çŠ¶æ€æœº
     protected void SwitchOn(IState newState)
     {
         currentState = newState;
         currentState.Enter();
     }
 
-    //×´Ì¬ÇĞ»»
+    //çŠ¶æ€åˆ‡æ¢
     public void SwitchState(IState newState)
     {
         currentState.Exit();
         SwitchOn(newState);
     }
 
-    //×´Ì¬ÇĞ»»ÖØÔØ£¬µ÷ÓÃÔ­×´Ì¬ÇĞ»»º¯Êı£¬´«Èë²ÎÊı¶ÔÓ¦×´Ì¬×ÖµäÖĞµÄÖµ¼´¿É
+    //çŠ¶æ€åˆ‡æ¢é‡è½½ï¼Œè°ƒç”¨åŸçŠ¶æ€åˆ‡æ¢å‡½æ•°ï¼Œä¼ å…¥å‚æ•°å¯¹åº”çŠ¶æ€å­—å…¸ä¸­çš„å€¼å³å¯
     public void SwitchState(System.Type newStateType)
     {
         SwitchState(stateTable[newStateType]);

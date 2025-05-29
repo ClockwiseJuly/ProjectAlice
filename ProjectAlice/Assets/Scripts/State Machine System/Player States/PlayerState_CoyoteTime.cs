@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerState_CoyoteTime : PlayerState
 {
     [SerializeField] float runSpeed = 5f;
-    [SerializeField] float CoyoteTime = 0.1f;//土狼时间持续时间
+    [SerializeField] float CoyoteTime = 0.1f;//鍦熺嫾鏃堕棿鎸佺画鏃堕棿
     public override void Enter()
     {
         base.Enter();

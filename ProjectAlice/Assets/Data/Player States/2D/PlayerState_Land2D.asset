@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f12d18a560a70b4b9dee8d32b317373, type: 3}
   m_Name: PlayerState_Land2D
   m_EditorClassIdentifier: 
-  stateName: 
+  stateName: Land
   transitionDuration: 0.1
   stiffTime: 0.2

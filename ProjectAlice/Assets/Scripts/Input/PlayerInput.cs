@@ -8,26 +8,41 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] float jumpInputBufferTime = 0.5f; // 跳跃输入缓冲时间
     WaitForSeconds waitJumpInputBufferTime;
     PlayerInputActions playerInputActions;
+    private SwitchViewManager switchViewManager;
+    
     Vector2 axes => playerInputActions.Gameplay.Axes.ReadValue<Vector2>();//
 
     //public bool Move => AxisX != 0f;
     public bool Move => AxisX != 0f || AxisY != 0f; // 修改移动判断，包含X轴或Z轴有输入
     public float AxisX => axes.x;
-    public float AxisY => axes.y; // 添加Y轴输入值访问器，用于Z轴移动
+    //public float AxisY => axes.y; // 添加Y轴输入值访问器，用于Z轴移动
+    
+    // 修改AxisY属性，在2D视角下禁用W和S键位
+    public float AxisY 
+    {
+        get
+        {
+            // 如果当前处于2D视角，则禁用Y轴输入（W和S键）
+            if (switchViewManager != null && switchViewManager.Is2DViewActive)
+            {
+                return 0f;
+            }
+            return axes.y;
+        }
+    }
 
     public bool HasJumpInputBuffer { get; set; }// 跳跃输入缓冲标志
     public bool Jump => playerInputActions.Gameplay.Jump.WasPressedThisFrame();
     public bool StopJump => playerInputActions.Gameplay.Jump.WasReleasedThisFrame();
-
-
     //交互键
     public bool Interact => playerInputActions.Gameplay.Interaction.WasPressedThisFrame();
-
+    
     void Awake()
     {
         playerInputActions = new PlayerInputActions();
-
         waitJumpInputBufferTime = new WaitForSeconds(seconds: jumpInputBufferTime);
+        
+        switchViewManager = FindObjectOfType<SwitchViewManager>();
     }
 
     void OnEnable()

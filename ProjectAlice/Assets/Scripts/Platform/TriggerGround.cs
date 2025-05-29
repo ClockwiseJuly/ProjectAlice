@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TriggerGround : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel triggerEventChannel;// ĞòÁĞ»¯µ±Ç°ÀàµÄÊÂ¼şÆµµÀ±äÁ¿
-    //[SerializeField] Trigger trigger;// »ñÈ¡triggerµÄÒıÓÃÊµÀı
+    [SerializeField] VoidEventChannel triggerEventChannel;// åºåˆ—åŒ–å½“å‰ç±»çš„äº‹ä»¶é¢‘é“å˜é‡
+    //[SerializeField] Trigger trigger;// è·å–triggerçš„å¼•ç”¨å®ä¾‹
 
     new Collider collider;
     MeshRenderer meshRenderer;
@@ -11,21 +11,21 @@ public class TriggerGround : MonoBehaviour
     void OnEnable()
     {
         //trigger.Delegate += Open;
-        triggerEventChannel.AddListener(action: Open); // Ìí¼Ó¼àÌı
+        triggerEventChannel.AddListener(action: Open); // æ·»åŠ ç›‘å¬
     }
 
     void OnDisable()
     {
         //trigger.Delegate -= Open;
-        triggerEventChannel.RemoveListener(action: Open); // È¡Ïû¼àÌı
+        triggerEventChannel.RemoveListener(action: Open); // å–æ¶ˆç›‘å¬
     }
 
     void Awake()
     {
         collider = GetComponent<Collider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        collider.enabled = false; // ½ûÓÃÅö×²Ìå
-        meshRenderer.enabled = false; // Òş²ØÎïÌå
+        collider.enabled = false; // ç¦ç”¨ç¢°æ’ä½“
+        meshRenderer.enabled = false; // éšè—ç‰©ä½“
     }
     void Open()
     {

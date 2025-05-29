@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9212c442adcc7eb49833ac17a22b3338, type: 3}
-  m_Name: PlayerState_CoyoteTime2D
+  m_Script: {fileID: 11500000, guid: 671a21fe92a0648439fec2f668fdcd21, type: 3}
+  m_Name: VoidEventChannel_LevelStarted
   m_EditorClassIdentifier: 
-  stateName: CoyoteTime
-  transitionDuration: 0.1
-  runSpeed: 5
-  CoyoteTime: 0.1

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MirrorFragment : MonoBehaviour
 {
-    [SerializeField] AudioClip pickupSFX;// Ê°È¡ÒôĞ§
-    [SerializeField] ParticleSystem pickupVFX;// Ê°È¡Á£×ÓĞ§¹û
+    [SerializeField] AudioClip pickupSFX;// æ‹¾å–éŸ³æ•ˆ
+    [SerializeField] ParticleSystem pickupVFX;// æ‹¾å–ç²’å­æ•ˆæœ
 
-    //[SerializeField] float resetTime = 3.0f; // ÖØÖÃÊ±¼ä
+    //[SerializeField] float resetTime = 3.0f; // é‡ç½®æ—¶é—´
 
-    WaitForSeconds waitResetTime;
+    //WaitForSeconds waitResetTime;
     new Collider collider;
     MeshRenderer meshRenderer;
 
@@ -17,37 +17,37 @@ public class MirrorFragment : MonoBehaviour
     {
         collider = GetComponent<Collider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        //waitResetTime = new WaitForSeconds(seconds:resetTime); // ÉèÖÃÖØÖÃÊ±¼ä
+        //waitResetTime = new WaitForSeconds(seconds:resetTime); // è®¾ç½®é‡ç½®æ—¶é—´
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<PlayerController>(component: out PlayerController player))//¼ì²â½øÈë´¥·¢Æ÷¶ÔÏóÊÇ·ñÊÇÍæ¼Ò
+        if (other.TryGetComponent<PlayerController>(component: out PlayerController player))//æ£€æµ‹è¿›å…¥è§¦å‘å™¨å¯¹è±¡æ˜¯å¦æ˜¯ç©å®¶
         {
-            collider.enabled = false; // ½ûÓÃÅö×²Ìå£¬±ÜÃâÖØ¸´´¥·¢
-            meshRenderer.enabled = false; // ¹Ø±ÕäÖÈ¾Æ÷£¬Òş²ØÎïÌå
-            SoundEffectPlayer.audioSource.PlayOneShot(clip: pickupSFX); // ²¥·ÅÒôĞ§
-            Instantiate(original: pickupVFX, position: transform.position, rotation: transform.rotation); // ÊµÀı»¯Á£×ÓĞ§¹û
+            collider.enabled = false; // ç¦ç”¨ç¢°æ’ä½“ï¼Œé¿å…é‡å¤è§¦å‘
+            meshRenderer.enabled = false; // å…³é—­æ¸²æŸ“å™¨ï¼Œéšè—ç‰©ä½“
+            SoundEffectPlayer.audioSource.PlayOneShot(clip: pickupSFX); // æ’­æ”¾éŸ³æ•ˆ
+            Instantiate(original: pickupVFX, position: transform.position, rotation: transform.rotation); // å®ä¾‹åŒ–ç²’å­æ•ˆæœ
 
-            //player.CanAirJump = true; // ÔÊĞíÍæ¼Ò¿ÕÖĞÌøÔ¾
+            //player.CanAirJump = true; // å…è®¸ç©å®¶ç©ºä¸­è·³è·ƒ
 
-            // ¾µ×ÓËéÆ¬Í³¼ÆUI¸üĞÂ
+            // é•œå­ç¢ç‰‡ç»Ÿè®¡UIæ›´æ–°
 
-            //Invoke(methodName: nameof(Reset), time :resetTime); //InvokeÖ»ÊÊºÏµ÷ÓÃÒ»´Î£¬¶à´ÎÔòÓÃĞ­³Ì
+            //Invoke(methodName: nameof(Reset), time :resetTime); //Invokeåªé€‚åˆè°ƒç”¨ä¸€æ¬¡ï¼Œå¤šæ¬¡åˆ™ç”¨åç¨‹
             //StartCoroutine(routine : ResetCoroutine());
 
         }
     }
 
-    //Ê°È¡ÎïÌåÖØÉú
+    //æ‹¾å–ç‰©ä½“é‡ç”Ÿ
     // void Reset()
     // {
-    //     collider.enabled = true; // È·±£ÔÚÖØÖÃÊ±ÆôÓÃÅö×²Ìå
-    //     meshRenderer.enabled = true; // È·±£ÔÚÖØÖÃÊ±ÆôÓÃäÖÈ¾Æ÷
+    //     collider.enabled = true; // ç¡®ä¿åœ¨é‡ç½®æ—¶å¯ç”¨ç¢°æ’ä½“
+    //     meshRenderer.enabled = true; // ç¡®ä¿åœ¨é‡ç½®æ—¶å¯ç”¨æ¸²æŸ“å™¨
     // }
 
     // IEnumerator ResetCoroutine()
     // {
-    //     yield return waitResetTime; // µÈ´ıÖ¸¶¨µÄÖØÖÃÊ±¼ä
+    //     yield return waitResetTime; // ç­‰å¾…æŒ‡å®šçš„é‡ç½®æ—¶é—´
     //     Reset():
     // }
 }

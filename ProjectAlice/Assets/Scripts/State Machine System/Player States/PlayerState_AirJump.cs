@@ -1,4 +1,4 @@
- using UnityEngine;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/AirJump", fileName = "PlayerState_AirJump")]
 
@@ -8,13 +8,13 @@ public class PlayerState_AirJump : PlayerState
 
     [SerializeField] float moveSpeed = 5f;
 
-    [SerializeField] ParticleSystem jumpVFX; // 二段跳跃粒子特效
+    [SerializeField] ParticleSystem jumpVFX;
 
-    [SerializeField] AudioClip jumpSFX;// 二段跳跃语音
+    [SerializeField] AudioClip jumpSFX;
     public override void Enter()
     {
         base.Enter();
-        player.CanAirJump = false;// ????????
+        player.CanAirJump = false;
         player.SetVelocityY(jumpForce);
         player.VoicePlayer.PlayOneShot(clip: jumpSFX);
         Instantiate(original: jumpVFX, position: player.transform.position, rotation: Quaternion.identity);

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class VictoryScreen : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel levelclearedEventChannel;// ¼àÌı´ËÆµµÀ
+    [SerializeField] VoidEventChannel levelclearedEventChannel;// ç›‘å¬æ­¤é¢‘é“
 
     void OnEnable()
     {
@@ -16,8 +16,8 @@ public class VictoryScreen : MonoBehaviour
 
     void ShowUI()
     {
-        GetComponent<Canvas>().enabled = true; // ÆôÓÃ»­²¼
-        GetComponent<Animator>().enabled = true; // ²¥·Å¶¯»­
+        GetComponent<Canvas>().enabled = true; // å¯ç”¨ç”»å¸ƒ
+        GetComponent<Animator>().enabled = true; // æ’­æ”¾åŠ¨ç”»
 
     }
 }

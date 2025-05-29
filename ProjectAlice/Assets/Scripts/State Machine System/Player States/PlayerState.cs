@@ -4,26 +4,26 @@ public class PlayerState : ScriptableObject, IState
 {
     [SerializeField] string stateName;
 
-    [SerializeField, Range(0f, 1f)] float transitionDuration = 0.1f;//½»²æµ­»¯³ÖĞøÊ±¼ä
+    [SerializeField, Range(0f, 1f)] float transitionDuration = 0.1f;//äº¤å‰æ·¡åŒ–æŒç»­æ—¶é—´
 
-    float stateStartTime;//×´Ì¬¿ªÊ¼Ê±¼ä
+    float stateStartTime;//çŠ¶æ€å¼€å§‹æ—¶é—´
 
-    int stateHash;//×´Ì¬¹şÏ£Öµ
+    int stateHash;//çŠ¶æ€å“ˆå¸Œå€¼
 
     protected float currentSpeed;
 
-    protected Animator animator;//½øĞĞ¶¯»­ÇĞ»»
+    protected Animator animator;//è¿›è¡ŒåŠ¨ç”»åˆ‡æ¢
 
-    protected PlayerController player;//Íæ¼Ò¿ØÖÆÆ÷ÒıÓÃ
+    protected PlayerController player;//ç©å®¶æ§åˆ¶å™¨å¼•ç”¨
 
     protected PlayerInput input;
 
-    protected PlayerStateMachine stateMachine;//Ö´ĞĞ×´Ì¬ÇĞ»»
+    protected PlayerStateMachine stateMachine;//æ‰§è¡ŒçŠ¶æ€åˆ‡æ¢
 
-    //¶¯»­ÊÇ·ñ²¥·ÅÍê±Ï£¬Í¨¹ıÅĞ¶Ïµ±Ç°×´Ì¬³ÖĞøÊ±¼äÊÇ·ñ´óÓÚµÈÓÚµ±Ç°¶¯»­×´Ì¬µÄ³¤¶È
+    //åŠ¨ç”»æ˜¯å¦æ’­æ”¾å®Œæ¯•ï¼Œé€šè¿‡åˆ¤æ–­å½“å‰çŠ¶æ€æŒç»­æ—¶é—´æ˜¯å¦å¤§äºç­‰äºå½“å‰åŠ¨ç”»çŠ¶æ€çš„é•¿åº¦
     protected bool IsAnimationFinished => StateDuration >= animator.GetCurrentAnimatorStateInfo(0).length;
 
-    //»ñÈ¡µ±Ç°×´Ì¬³ÖĞøÊ±¼ä
+    //è·å–å½“å‰çŠ¶æ€æŒç»­æ—¶é—´
     protected float StateDuration => Time.time - stateStartTime;
 
 
@@ -32,7 +32,7 @@ public class PlayerState : ScriptableObject, IState
         stateHash = Animator.StringToHash(stateName);
     }
 
-    //³õÊ¼»¯×é¼ş
+    //åˆå§‹åŒ–ç»„ä»¶
     public void Initialize(Animator animator, PlayerController player, PlayerInput input, PlayerStateMachine stateMachine)
     {
         this.animator = animator;
@@ -41,10 +41,10 @@ public class PlayerState : ScriptableObject, IState
         this.stateMachine = stateMachine;
     }
 
-    //virtualĞŞÊÎ·û£¬ÈÃ×ÓÀà¿ÉÒÔÖØĞ´´Ë·½·¨
+    //virtualä¿®é¥°ç¬¦ï¼Œè®©å­ç±»å¯ä»¥é‡å†™æ­¤æ–¹æ³•
     public virtual void Enter()
     {
-        animator.CrossFade(stateHash, transitionDuration);//²¥·Å¶¯»­½»²æµ­»¯
+        animator.CrossFade(stateHash, transitionDuration);//æ’­æ”¾åŠ¨ç”»äº¤å‰æ·¡åŒ–
         stateStartTime = Time.time;
     }
 

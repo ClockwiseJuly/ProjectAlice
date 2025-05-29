@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class VictoryGate : MonoBehaviour
 {
-    [SerializeField] VoidEventChannel levelclearedEventChannel;// 序列化当前类的事件频道变量，只要在需要监听此频道的类里声明同样的变量即可
+    [SerializeField] VoidEventChannel levelclearedEventChannel;// 搴忓垪鍖栧綋鍓嶇被鐨勪簨浠堕閬撳彉閲忥紝鍙鍦ㄩ渶瑕佺洃鍚棰戦亾鐨勭被閲屽０鏄庡悓鏍风殑鍙橀噺鍗冲彲
     [SerializeField] AudioClip pickSFX;
     //[SerializeField] ParticleSystem pickVFX;
 
-    void OnTriggerEnter(Collider other)// 触发器而非交互
+    void OnTriggerEnter(Collider other)// 瑙﹀彂鍣ㄨ�岄潪浜や簰
     {
-        levelclearedEventChannel.Broadcast(); // 广播事件
+        levelclearedEventChannel.Broadcast(); // 骞挎挱浜嬩欢
         SoundEffectPlayer.audioSource.PlayOneShot(pickSFX);
         //Instantiate(original: pickVFX, position: transform.position, rotation: Quaternion.identity);
         //Destroy(obj: gameObject);

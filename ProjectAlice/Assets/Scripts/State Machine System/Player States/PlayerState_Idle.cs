@@ -7,7 +7,7 @@ public class PlayerState_Idle : PlayerState
     [SerializeField] float deceleration = 5f;
     public override void Enter()
     {
-        base.Enter();//依靠PlayState基类Enter函数播放动画
+        base.Enter();//渚濋潬PlayState鍩虹被Enter鍑芥暟鎾斁鍔ㄧ敾
 
         currentSpeed = player.MoveSpeed;
 

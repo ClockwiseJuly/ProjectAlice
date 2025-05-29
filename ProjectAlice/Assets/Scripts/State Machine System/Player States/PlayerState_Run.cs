@@ -30,7 +30,7 @@ public class PlayerState_Run : PlayerState
             stateMachine.SwitchState(typeof(PlayerState_CoyoteTime));
         }
 
-        //逐帧修改当前速度
+        
         currentSpeed = Mathf.MoveTowards(currentSpeed, runSpeed, accleration * Time.deltaTime);
     }
 

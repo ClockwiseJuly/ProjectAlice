@@ -3,23 +3,23 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Land", fileName = "PlayerState_Land")]
 public class PlayerState_Land : PlayerState
 {
-    [SerializeField] float stiffTime = 0.2f;//ÂäµØ½©Ö±Ê±¼ä
+    [SerializeField] float stiffTime = 0.2f;//è½åœ°åƒµç›´æ—¶é—´
     public override void PhysicUpdate()
     {
         base.PhysicUpdate();
 
         player.SetVelocity(Vector3.zero);
 
-        player.CanAirJump = true;//Òª¸ÄÎª»ñÈ¡µÀ¾ß½âËø¶ş¶ÎÌøÔòÉ¾³ı´Ë¾ä
+        player.CanAirJump = true;//è¦æ”¹ä¸ºè·å–é“å…·è§£é”äºŒæ®µè·³åˆ™åˆ é™¤æ­¤å¥
     }
     public override void LogicUpdate()
     {
-        if (input.HasJumpInputBuffer || input.Jump)//´¦ÀíÊäÈë»º³å
+        if (input.HasJumpInputBuffer || input.Jump)//å¤„ç†è¾“å…¥ç¼“å†²
         {
             stateMachine.SwitchState(typeof(PlayerState_JumpUp));
         }
 
-        //×´Ì¬Ó²Ö±
+        //çŠ¶æ€ç¡¬ç›´
         if (StateDuration < stiffTime)
         {
             return;

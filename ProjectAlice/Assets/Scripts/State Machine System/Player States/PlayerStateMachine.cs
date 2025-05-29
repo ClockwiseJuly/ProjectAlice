@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
-    [SerializeField] PlayerState[] states;//ĞòÁĞ»¯Íæ¼Ò×´Ì¬Êı×é
+    [SerializeField] PlayerState[] states;//åºåˆ—åŒ–ç©å®¶çŠ¶æ€æ•°ç»„
 
     Animator animator;
 
@@ -12,7 +12,7 @@ public class PlayerStateMachine : StateMachine
 
     PlayerInput input;
 
-    //¶ÔÍæ¼ÒÃ¿¸ö×´Ì¬½øĞĞ³õÊ¼»¯
+    //å¯¹ç©å®¶æ¯ä¸ªçŠ¶æ€è¿›è¡Œåˆå§‹åŒ–
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -21,19 +21,19 @@ public class PlayerStateMachine : StateMachine
 
         player = GetComponent<PlayerController>();
 
-        stateTable = new Dictionary<System.Type, IState>(states.Length);//×ÖµäÄ¬ÈÏÔªËØ¸öÊıÎª×´Ì¬Êı×é³¤¶È
+        stateTable = new Dictionary<System.Type, IState>(states.Length);//å­—å…¸é»˜è®¤å…ƒç´ ä¸ªæ•°ä¸ºçŠ¶æ€æ•°ç»„é•¿åº¦
 
         foreach (PlayerState state in states)
         {
             state.Initialize(animator, player, input, this);
             stateTable.Add(state.GetType(), state);
-            //»ñÈ¡¼üºÍÖµ£¬¼üÎª×´Ì¬ÀàĞÍ£¬ÖµÎª×´Ì¬ÊµÀı
-            //µ±ÒªÈ¡µÃ×ÖµäÖĞÄ³¸öÌØ¶¨µÄÖµ£¬Ö»Òª´«Èë×´Ì¬¶ÔÓ¦µÄtype£¬¾Í¿ÉÈ¡µÃ´Ë¼ü¶ÔÓ¦µÄ×´Ì¬Àà
+            //è·å–é”®å’Œå€¼ï¼Œé”®ä¸ºçŠ¶æ€ç±»å‹ï¼Œå€¼ä¸ºçŠ¶æ€å®ä¾‹
+            //å½“è¦å–å¾—å­—å…¸ä¸­æŸä¸ªç‰¹å®šçš„å€¼ï¼Œåªè¦ä¼ å…¥çŠ¶æ€å¯¹åº”çš„typeï¼Œå°±å¯å–å¾—æ­¤é”®å¯¹åº”çš„çŠ¶æ€ç±»
         }
     }
 
     void Start()
     {
-        SwitchOn(stateTable[typeof(PlayerState_Idle)]);//»ñÈ¡¿ÕÏĞ×´Ì¬Àà
+        SwitchOn(stateTable[typeof(PlayerState_Idle)]);//è·å–ç©ºé—²çŠ¶æ€ç±»
     }
 }

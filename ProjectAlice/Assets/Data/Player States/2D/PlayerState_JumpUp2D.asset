@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f66454209a98f14ab3760c0d8f1de9a, type: 3}
   m_Name: PlayerState_JumpUp2D
   m_EditorClassIdentifier: 
-  stateName: 
+  stateName: JumpUp
   transitionDuration: 0.1
-  jumpForce: 7
+  jumpForce: 8
   moveSpeed: 5
-  jumpVFX: {fileID: 0}
-  jumpSFX: {fileID: 0}
+  jumpVFX: {fileID: 4677385770777475979, guid: 31beca5807f326246860109c534f1383, type: 3}
+  jumpSFX: {fileID: 8300000, guid: eed2451bbd4264da8b6c27c92df62faf, type: 3}
