@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.iOS;
-using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class SwitchViewManager : MonoBehaviour
 {
@@ -12,10 +11,10 @@ public class SwitchViewManager : MonoBehaviour
     public CinemachineVirtualCamera _virtualCamera3Dleft;
     public CinemachineVirtualCamera _virtualCamera3Dright;
     public CinemachineVirtualCamera _virtualCamera3Dtop;
-    private bool is2DViewActive = true; // 默认为2D视角
-    public bool Is2DViewActive => is2DViewActive;// 添加公共属性以供其他脚本访问
-    private int current3DView = 0; // 0=无，1=左视角，2=右视角, 3=俯视角;
-    public PlayerController playerController; // 玩家控制器引用
+    private bool is2DViewActive = true;
+    public bool Is2DViewActive => is2DViewActive;
+    private int current3DView = 0;
+    public PlayerController playerController;
     public List<GameObject> _gameObjects;
     public List<BoxCollider> boxColliders = new List<BoxCollider>();
 
@@ -23,34 +22,150 @@ public class SwitchViewManager : MonoBehaviour
     private bool qKeyWasPressed = false;
     private bool eKeyWasPressed = false;
     private bool rKeyWasPressed = false;
-    [SerializeField ]private float keyDebounceTime = 0.5f; // 按键防抖时间（秒）
+    [SerializeField] private float keyDebounceTime = 0.5f; // 按键防抖时间（秒）
     private float qKeyTimer = 0f;
     private float eKeyTimer = 0f;
     private float rKeyTimer = 0f;
 
     private GameObject player;
     private Transform playerTransform;
+    
+    // 添加场景切换监听
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    // 场景加载完成后重新查找引用
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 延迟一帧执行，确保场景完全加载
+        StartCoroutine(RefreshReferencesDelayed());
+    }
+    
+    private IEnumerator RefreshReferencesDelayed()
+    {
+        yield return null; // 等待一帧
+        RefreshReferences();
+    }
+    
+    // 重新查找所有引用
+    private void RefreshReferences()
+    {
+        Debug.Log("SwitchViewManager: 重新查找场景引用...");
+        
+        // 重新查找PlayerController
+        playerController = FindObjectOfType<PlayerController>();
+        if (playerController == null)
+        {
+            Debug.LogWarning("SwitchViewManager: 未找到PlayerController!");
+        }
+        
+        // 重新查找Player对象
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+            Debug.Log("SwitchViewManager: 找到Player对象");
+        }
+        else
+        {
+             Debug.LogWarning("SwitchViewManager: 未找到Player对象!");
+            playerTransform = null; // 确保设置为null
+        }
+        
+        // 重新查找虚拟相机（如果为空的话）
+        RefreshCameraReferences();
+        
+        // 重新查找2DCollider对象
+        RefreshColliderReferences();
+    }
+    
+    private void RefreshCameraReferences()
+    {
+        // 如果相机引用丢失，尝试通过名称查找
+        if (_virtualCamera2D == null)
+        {
+            _virtualCamera2D = GameObject.Find("Virtual Camera Player Follow 2D")?.GetComponent<CinemachineVirtualCamera>();
+        }
+        if (_virtualCamera3Dleft == null)
+        {
+            _virtualCamera3Dleft = GameObject.Find("Virtual Camera Player Follow 3D Left")?.GetComponent<CinemachineVirtualCamera>();
+        }
+        if (_virtualCamera3Dright == null)
+        {
+            _virtualCamera3Dright = GameObject.Find("Virtual Camera Player Follow 3D Right")?.GetComponent<CinemachineVirtualCamera>();
+        }
+        if (_virtualCamera3Dtop == null)
+        {
+            _virtualCamera3Dtop = GameObject.Find("Virtual Camera Player Follow 3D Top")?.GetComponent<CinemachineVirtualCamera>();
+        }
+        
+        Debug.Log($"相机引用状态: 2D={_virtualCamera2D != null}, 3DLeft={_virtualCamera3Dleft != null}, 3DRight={_virtualCamera3Dright != null}, 3DTop={_virtualCamera3Dtop != null}");
+    }
+    
+    private void RefreshColliderReferences()
+    {
+        // 清空现有列表
+        boxColliders.Clear();
+        
+        // 重新查找2DCollider对象
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("2DCollider");
+        foreach (var obj in gameObjects)
+        {
+            BoxCollider[] colliders = obj.GetComponents<BoxCollider>();
+            if (colliders.Length > 1)
+            {
+                boxColliders.Add(colliders[1]);
+            }
+            else
+            {
+                Debug.LogWarning($"对象 {obj.name} 没有足够的BoxCollider组件!");
+            }
+        }
+        
+        Debug.Log($"找到 {boxColliders.Count} 个2DCollider对象");
+    }
 
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
-
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerTransform = player.transform;
-
-        //打标签+双碰撞体
-        GameObject[] _gameObjects = GameObject.FindGameObjectsWithTag("2DCollider");
-        foreach (var obj in _gameObjects)
-        {
-            BoxCollider boxCollider = obj.GetComponents<BoxCollider>()[1];
-            boxColliders.Add(boxCollider);
-        }
+        RefreshReferences();
     }
 
     private void Update()
     {
+         // 添加空值检查，防止访问已销毁的Transform
+    if (playerTransform == null)
+    {
+        // 尝试重新查找Player对象
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+            Debug.Log("SwitchViewManager: 在Update中重新找到Player对象");
+        }
+        else
+        {
+            // 如果仍然找不到，跳过这一帧的处理
+            return;
+        }
+    }
+        // 再次检查确保Transform有效
+    if (playerTransform != null)
+    {
         float x = playerTransform.localScale.x;
         UpdateAnimator2DForCurrentView(x);
+    }
+    else
+    {
+        // 如果playerTransform仍然为null，跳过处理
+        return;
+    }
 
         // 更新计时器
         if (qKeyTimer > 0) qKeyTimer -= Time.deltaTime;
@@ -189,7 +304,9 @@ public class SwitchViewManager : MonoBehaviour
 
     private void UpdateAnimator2DForCurrentView(float x)
     {
-        GameObject animator2D = GameObject.FindGameObjectsWithTag("Player")[1];
+        GameObject animator2D = GameObject.FindGameObjectsWithTag("Player")[0];
+
+        // 根据当前视角更新动画状态
         
         if (current3DView == 1) // 3D左视角
         {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : TimeControlled
 {
     [SerializeField] VoidEventChannel levelclearedEventChannel;// 监听关卡胜利事件频道
 
@@ -184,7 +184,6 @@ public class PlayerController : MonoBehaviour
     {
         return boxCollider.gameObject;
     }
-
 
     // void Update()
     // {
