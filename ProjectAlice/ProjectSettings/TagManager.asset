@@ -6,6 +6,8 @@ TagManager:
   tags:
   - FxTemporaire
   - 2DCollider
+  - Player2D
+  - Monster
   layers:
   - Default
   - TransparentFX

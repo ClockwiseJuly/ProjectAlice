@@ -93,4 +93,19 @@ public class PlayerInput : MonoBehaviour
         yield return waitJumpInputBufferTime;
         HasJumpInputBuffer = false;
     }
+    
+    // 移除这些不存在的输入引用
+    // public bool TimeRewind => playerInputActions.Gameplay.TimeRewind.IsPressed();
+    // public bool TimePause => playerInputActions.Gameplay.TimePause.WasPressedThisFrame();
+    // public bool TimeForward => playerInputActions.Gameplay.TimeForward.IsPressed();
+    
+    void Update()
+    {
+        // 移除时间控制相关的检查，因为TimeController直接使用Input.GetKey
+        // TimeController timeController = FindObjectOfType<TimeController>();
+        // if (timeController != null && timeController.isRewinding)
+        // {
+        //     return;
+        // }
+    }
 }

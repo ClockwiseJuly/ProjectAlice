@@ -59,6 +59,10 @@ public class SwitchViewManager : MonoBehaviour
     {
         Debug.Log("SwitchViewManager: 重新查找场景引用...");
         
+        // 重置视角状态到2D模式
+        is2DViewActive = true;
+        current3DView = 0;
+        
         // 重新查找PlayerController
         playerController = FindObjectOfType<PlayerController>();
         if (playerController == null)
@@ -72,6 +76,15 @@ public class SwitchViewManager : MonoBehaviour
         {
             playerTransform = player.transform;
             Debug.Log("SwitchViewManager: 找到Player对象");
+            
+            // 立即设置Animator2D为默认状态
+            GameObject animator2D = player.transform.Find("Animator2D")?.gameObject;
+            if (animator2D != null)
+            {
+                animator2D.transform.rotation = Quaternion.Euler(0, 0, 0);
+                animator2D.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                Debug.Log("SwitchViewManager: 重置Animator2D为默认状态");
+            }
         }
         else
         {
@@ -313,13 +326,12 @@ public class SwitchViewManager : MonoBehaviour
             if (x > 0f)
             {
                 animator2D.transform.rotation = Quaternion.Euler(0, 45, 0);
-                animator2D.transform.localScale = new Vector3(0.25f, 0.25f, 1f);
-
+                animator2D.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
             }
             else if (x < 0f)
             {
                 animator2D.transform.rotation = Quaternion.Euler(0, 225, 0);
-                animator2D.transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+                animator2D.transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
             }
         }
         else if (current3DView == 2) // 3D右视角
@@ -327,24 +339,23 @@ public class SwitchViewManager : MonoBehaviour
             if (x > 0f)
             {
                 animator2D.transform.rotation = Quaternion.Euler(0, -45, 0);
-                animator2D.transform.localScale = new Vector3(0.25f, 0.25f, 1f);
-
+                animator2D.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
             }
             else if (x < 0f)
             {
                 animator2D.transform.rotation = Quaternion.Euler(0, -225, 0);
-                animator2D.transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+                animator2D.transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
             }
         }
         else if (current3DView == 3) // 3D俯视角
         {
             animator2D.transform.rotation = Quaternion.Euler(0, 0, 0);
-            animator2D.transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+            animator2D.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         }
         else if (is2DViewActive) // 2D视角
         {
             animator2D.transform.rotation = Quaternion.Euler(0, 0, 0);
-            animator2D.transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+            animator2D.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         }
 
     }

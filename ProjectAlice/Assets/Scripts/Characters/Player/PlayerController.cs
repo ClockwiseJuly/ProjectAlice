@@ -39,8 +39,10 @@ public class PlayerController : TimeControlled
     //private const float TILT_ANGLE = 45f;// 相机倾斜角度
     //private bool is2DMode = false; // 跟踪当前视角模式
     //private int currentViewDirection = 0; // 0=正面，1=右侧，2=背面，3=左侧
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake(); // 调用基类的Awake方法
+        
         groundDetector = GetComponentInChildren<PlayerGroundDetector>();
         input = GetComponent<PlayerInput>();
         rigidBody = GetComponent<Rigidbody>();
@@ -252,4 +254,42 @@ public class PlayerController : TimeControlled
     //     rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
     // }
 
+    // 重写TimeUpdate方法
+    public override void TimeUpdate()
+    {
+        base.TimeUpdate();
+        
+        // 在时间倒流时，禁用某些更新
+        TimeController timeController = FindObjectOfType<TimeController>();
+        if (timeController != null && timeController.isRewinding)
+        {
+            return; // 时间倒流时不执行正常更新
+        }
+        
+        // 正常时间流逝时的更新逻辑可以放在这里
+    }
+    
+    public override void UpdateVelocity()
+    {
+        base.UpdateVelocity();
+        // PlayerController特有的velocity更新逻辑
+    }
+    
+    public override void ApplyVelocity()
+    {
+        base.ApplyVelocity();
+        // PlayerController特有的velocity应用逻辑
+    }
+    
+    // 添加时间控制相关的方法
+    public void OnTimeRewind()
+    {
+        // 时间倒流时的特殊处理
+        // 例如：禁用输入、停止音效等
+    }
+    
+    public void OnTimeResume()
+    {
+        // 时间恢复时的特殊处理
+    }
 }

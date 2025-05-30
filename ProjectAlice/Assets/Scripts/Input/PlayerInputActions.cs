@@ -117,6 +117,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimeRewind"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4c0b44b-b21d-4e2d-a9f8-e0c769ff7f37"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimePause"",
+                    ""type"": ""Button"",
+                    ""id"": ""58bc4860-80d9-4809-b442-8a6e29050c4b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimeForward"",
+                    ""type"": ""Button"",
+                    ""id"": ""51605e10-3548-41f4-a797-952a5636d91b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -361,6 +388,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ecb963f-7e3f-4244-9601-22445029fa8b"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimeRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ab204f6-49f7-44dc-a14d-3b141cd96f2a"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4aa47b50-cae0-439f-99b2-7b2a2816a68b"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimeForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -372,6 +432,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Axes = m_Gameplay.FindAction("Axes", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Interaction = m_Gameplay.FindAction("Interaction", throwIfNotFound: true);
+        m_Gameplay_TimeRewind = m_Gameplay.FindAction("TimeRewind", throwIfNotFound: true);
+        m_Gameplay_TimePause = m_Gameplay.FindAction("TimePause", throwIfNotFound: true);
+        m_Gameplay_TimeForward = m_Gameplay.FindAction("TimeForward", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -455,6 +518,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Axes;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Interaction;
+    private readonly InputAction m_Gameplay_TimeRewind;
+    private readonly InputAction m_Gameplay_TimePause;
+    private readonly InputAction m_Gameplay_TimeForward;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -478,6 +544,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Interaction".
         /// </summary>
         public InputAction @Interaction => m_Wrapper.m_Gameplay_Interaction;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/TimeRewind".
+        /// </summary>
+        public InputAction @TimeRewind => m_Wrapper.m_Gameplay_TimeRewind;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/TimePause".
+        /// </summary>
+        public InputAction @TimePause => m_Wrapper.m_Gameplay_TimePause;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/TimeForward".
+        /// </summary>
+        public InputAction @TimeForward => m_Wrapper.m_Gameplay_TimeForward;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -513,6 +591,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @TimeRewind.started += instance.OnTimeRewind;
+            @TimeRewind.performed += instance.OnTimeRewind;
+            @TimeRewind.canceled += instance.OnTimeRewind;
+            @TimePause.started += instance.OnTimePause;
+            @TimePause.performed += instance.OnTimePause;
+            @TimePause.canceled += instance.OnTimePause;
+            @TimeForward.started += instance.OnTimeForward;
+            @TimeForward.performed += instance.OnTimeForward;
+            @TimeForward.canceled += instance.OnTimeForward;
         }
 
         /// <summary>
@@ -533,6 +620,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @TimeRewind.started -= instance.OnTimeRewind;
+            @TimeRewind.performed -= instance.OnTimeRewind;
+            @TimeRewind.canceled -= instance.OnTimeRewind;
+            @TimePause.started -= instance.OnTimePause;
+            @TimePause.performed -= instance.OnTimePause;
+            @TimePause.canceled -= instance.OnTimePause;
+            @TimeForward.started -= instance.OnTimeForward;
+            @TimeForward.performed -= instance.OnTimeForward;
+            @TimeForward.canceled -= instance.OnTimeForward;
         }
 
         /// <summary>
@@ -594,5 +690,26 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteraction(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TimeRewind" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTimeRewind(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TimePause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTimePause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TimeForward" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTimeForward(InputAction.CallbackContext context);
     }
 }
